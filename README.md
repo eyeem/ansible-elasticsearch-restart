@@ -37,13 +37,13 @@ While you can simply use the `elasticsearch-restart` role like shown in the snip
 - hosts : "elasticsearch_cluster"
   serial: 1
   pre_tasks:
-    - include: includes/monitoring_deregister.yml
-    - include: includes/balancer_deregister.yml
+    - include: monitoring_deregister.yml
+    - include: balancer_deregister.yml
   roles:
     - elasticsearch-restart
   post_tasks:
-    - include: includes/balancer_register.yml
-    - include: includes/monitoring_register.yml
+    - include: balancer_register.yml
+    - include: monitoring_register.yml
 ````
 
 License
