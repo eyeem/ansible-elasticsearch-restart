@@ -1,8 +1,7 @@
 
 =========
 
-An Ansible role for performing safe Elasticsearch rolling restarts, without the cluster ever getting red.
-
+An Ansible role for performing safe [Elasticsearch rolling restarts](https://www.elastic.co/guide/en/elasticsearch/guide/current/_rolling_restarts.html), without the cluster ever getting red.
 
 Requirements
 ------------
