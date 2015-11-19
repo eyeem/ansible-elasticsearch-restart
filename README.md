@@ -25,7 +25,15 @@ The `elasticsearch-restart` role does not require any external dependencies.
 Example Playbook
 ----------------
 
-This role can be used within a playbook that also takes care of pre- and post- tasks that might also be needed to safely restart your cluster nodes.
+````yaml
+---
+- hosts : "elasticsearch_cluster"
+  serial: 1
+  roles:
+    - elasticsearch-restart
+````
+
+While you can simply use the `elasticsearch-restart` role like shown in the snippet above, you likely want to perform some other operations on each node before actually starting the controlled restart. To do so, you can user this role within a playbook that also takes care of pre- and post- tasks like registering and deregistering the node from monitoring and from any load balancers you might be using. Please refer to the [Ansible documentation](http://docs.ansible.com/ansible/guide_rolling_upgrade.html) for further details.
 
 ````yaml
 ---
@@ -45,7 +53,7 @@ This role can be used within a playbook that also takes care of pre- and post- t
 License
 -------
 
-BSD
+Apache
 
 Contributors
 ------------------
