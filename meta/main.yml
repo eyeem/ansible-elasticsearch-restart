@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: Michele Palmia
+  description: Perform safe Elasticsearch rolling restarts
+  company: Eyeem GmbH
+  license: license (GPLv2, CC-BY, etc)
+  min_ansible_version: 1.2
+  categories:
+  - clustering
+  - database
+  - database:nosql
+  dependencies: []

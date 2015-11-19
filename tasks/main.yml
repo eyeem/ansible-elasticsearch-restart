@@ -1,0 +1,35 @@
+---
+
+- name: Check number of nodes in the cluster
+  shell: "curl -s -m 2 'localhost:{{ es_http_port }}/_cat/nodes?h=name' | wc -l"
+  register: nodes_count
+
+- name: Turn off shard reallocation
+  shell: "curl -XPUT localhost:{{ es_http_port }}/_cluster/settings -d '{\"transient\" : {\"cluster.routing.allocation.enable\" : \"none\" }}'"
+  register: response
+  failed_when: response.stdout.find('"acknowledged":true') == -1
+
+- name: Restart the elasticsearch service
+  service:
+    name: {{ es_service_name }}
+    state: restarted
+  sudo: True
+
+- name: Wait for the node to rejoin the cluster
+  shell: "curl -s -m 2 'localhost:{{ es_http_port }}/_cat/nodes?h=name' | wc -l"
+  register: new_nodes
+  until: new_nodes.stdout == nodes_count.stdout
+  retries: 200
+  delay: 3
+
+- name: Turn on shard allocation
+  shell: "curl -XPUT localhost:{{ es_http_port }}/_cluster/settings -d '{\"transient\" : {\"cluster.routing.allocation.enable\" : \"all\" }}'"
+  register: response
+  failed_when: response.stdout.find('"acknowledged":true') == -1
+
+- name: Wait until cluster status is green
+  shell: "curl -XGET localhost:{{ es_http_port }}/_cluster/health"
+  register: response
+  until: response.stdout.find('"status":"green"') != -1
+  retries: 100
+  delay: 10

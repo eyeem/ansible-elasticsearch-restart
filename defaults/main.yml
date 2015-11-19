@@ -1,0 +1,3 @@
+---
+es_http_port: 9200
+es_service_name: elasticsearch
