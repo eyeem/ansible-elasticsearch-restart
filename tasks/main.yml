@@ -11,7 +11,7 @@
 
 - name: Restart the elasticsearch service
   service:
-    name: {{ es_service_name }}
+    name: "{{ es_service_name }}"
     state: restarted
   sudo: True
 
