@@ -2,3 +2,6 @@
 es_http_port: 9200
 es_listening_host: localhost
 es_service_name: elasticsearch
+
+es_provisioning: False
+es_provisioning_params: ""

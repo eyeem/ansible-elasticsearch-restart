@@ -9,10 +9,21 @@
   register: response
   failed_when: response.stdout.find('"acknowledged":true') == -1
 
-- name: Restart the elasticsearch service
+- name: Stop the elasticsearch service
   service:
     name: "{{ es_service_name }}"
-    state: restarted
+    state: stopped
+  sudo: True
+
+- name: Running chef client
+  command: "chef-client {{ es_provisioning_params }}"
+  sudo: True
+  when: es_provisioning
+
+- name: Start the elasticsearch service
+  service:
+    name: "{{ es_service_name }}"
+    state: started
   sudo: True
 
 - name: Wait for the node to rejoin the cluster
